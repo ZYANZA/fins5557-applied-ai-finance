@@ -1,149 +1,190 @@
-# FINS5557 Applied AI in Finance — Student Notebooks
+# Applied AI in Finance — FINS3657 / FINS5557 Course Materials
 
-**UNSW Business School | Postgraduate Course**
-**Authors:** Juraj Hric
+**UNSW Business School — School of Banking and Finance**
+**Author:** Juraj Hric
 
----
-
-## About This Course
-
-FINS5557 explores how artificial intelligence is transforming the global financial sector. The course equips students with both the conceptual understanding and practical skills needed to work at the intersection of AI and finance.
-
-Topics span AI in banking automation, predictive analytics, risk management, fraud detection, algorithmic trading, and asset and wealth management. The first five weeks build technical foundations; weeks 7–10 focus on industry applications through real-world case studies.
-
-**Format:** 10-week postgraduate course — three-hour weekly lecture (three one-hour sessions per week).
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ZYANZA/fins5557-applied-ai-finance)
 
 ---
 
-## How to Use These Notebooks
+## About This Repository
 
-All notebooks are designed to run in **Google Colab** with no local setup required.
+This repository holds the hands-on teaching materials for two UNSW courses on applied artificial intelligence in finance:
 
-### Opening a notebook in Colab
+| Course | Level | Audience |
+|---|---|---|
+| **FINS3657** | Undergraduate | Later-year Bachelor of Commerce and related students |
+| **FINS5557** | Postgraduate | Master of Commerce, Master of Finance and related students |
 
-1. Navigate to the week folder below.
-2. Click the notebook file (`.ipynb`).
-3. On GitHub, click **Open in Colab** (the badge at the top of the notebook), or go to [colab.research.google.com](https://colab.research.google.com) → File → Open notebook → GitHub tab → paste this repository URL.
+Both courses share one set of weekly seminar notebooks, case studies and lab apps. Lectures, readings, assessment details and due dates differ between the two courses and are published **only on each course's Moodle page**. If this repository and Moodle disagree, follow Moodle.
 
-### API keys (weeks with live AI features)
+The courses show how AI is changing the financial sector, covering banking automation, predictive analytics, risk management, fraud detection, algorithmic trading, and asset and wealth management. Weeks 1–5 build the conceptual and technical foundations, Week 6 is a code-first lab, and Weeks 7–10 apply these tools to industry case studies.
 
-Some notebooks can connect to the Gemini API for live demonstrations. A free key is sufficient:
+**Format:** 10 teaching weeks, with a three-hour weekly lecture (three one-hour sessions).
 
-1. Get a free API key at [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey) — no credit card required; free tier provides 15 RPM / 1 million tokens per day.
-2. In Colab: click the **key icon** (Secrets panel, left sidebar) → **+ Add new secret** → Name: `GOOGLE_API_KEY`, Value: paste your key, toggle **Notebook access** ON.
-3. Re-run the setup cell — the notebook auto-detects the secret.
+---
 
-If no key is provided, every notebook falls back automatically to a **mock simulation** that produces representative output so the full pipeline can still be followed.
-
-### Python stack
-
-Notebooks use the standard course stack — all pre-installed in Colab:
+## Repository Layout
 
 ```
-numpy  pandas  scipy  scikit-learn  matplotlib  google-generativeai
+week01/ … week05/   Seminar notebooks — foundations and technical depth
+week06/             Tech Lab — notebook plus Streamlit apps (credit, robo-advice, super fund)
+week07/             Seminar notebook — AI in corporate finance
+week08/ … week10/   Case-study notebooks — industry applications
+week09/             Also contains the WealthTech advisory Streamlit app
 ```
+
+Each week folder is self-contained. Notebooks generate their own synthetic data or download it at run time, so no separate dataset download is needed.
 
 ---
 
-## Weekly Notebooks
+## How to Use These Materials
+
+### Option A — Google Colab (recommended)
+
+All notebooks are designed to run in **Google Colab**, which needs no local setup.
+
+1. Open the week folder you need in this repository and click the `.ipynb` file.
+2. Click the **Open in Colab** badge at the top of the notebook. You can also go to [colab.research.google.com](https://colab.research.google.com), choose **File → Open notebook → GitHub**, and paste this repository's URL.
+3. Choose **File → Save a copy in Drive** before making changes. Your edits will then be kept in your own Drive.
+4. Run the cells from top to bottom (**Runtime → Run all**). The first cell installs any extra packages the notebook needs.
+
+### Option B — Running locally
+
+Use this option if you prefer VS Code or Jupyter on your own machine.
+
+```bash
+git clone https://github.com/ZYANZA/fins5557-applied-ai-finance.git
+cd fins5557-applied-ai-finance
+python -m venv .venv
+# Windows: .venv\Scripts\activate    macOS/Linux: source .venv/bin/activate
+pip install numpy pandas scipy scikit-learn matplotlib seaborn shap \
+            streamlit google-generativeai anthropic jupyter
+jupyter notebook
+```
+
+Python 3.10 or later is recommended. A few notebooks also install `torch`/`torchvision` when needed. Cells that read Colab secrets (`google.colab.userdata`) fall back to environment variables or mock mode when they run locally.
+
+### API keys (optional; used for the live LLM features)
+
+Notebooks from Week 3 onwards can call a live large language model. **A key is never required.** Without one, each notebook switches to a **mock simulation** that produces representative output, so you can still follow the whole pipeline.
+
+To use the free Gemini tier:
+
+1. Get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). No credit card is needed.
+2. In Colab, click the **key icon** (Secrets panel in the left sidebar), choose **+ Add new secret**, name it `GOOGLE_API_KEY`, paste the key, and turn **Notebook access** on.
+3. Re-run the setup cell. The notebook detects the secret automatically.
+
+Some notebooks also accept Anthropic Claude or OpenAI keys, stored as secrets named `ANTHROPIC_API_KEY` or `OPENAI_API_KEY`. When running locally, set these names as environment variables.
+
+> Never paste API keys directly into notebook cells or commit them to Git.
+
+### Streamlit apps (Weeks 6 and 9)
+
+The Week 6 lab (`credit_app.py`, `robo_advisory_app.py`, `super_fund_app.py`) and the Week 9 case study (`advisory_app.py`) include interactive dashboards built with Streamlit.
+
+- **In Colab:** the notebook writes the app file, starts it, and opens a public link through `pyngrok`. Follow the instructions in the notebook. A free [ngrok](https://ngrok.com) auth token is needed for this.
+- **Locally:** run the app from inside its week folder, for example:
+  ```bash
+  cd week06
+  streamlit run credit_app.py
+  ```
+  `credit_app.py` loads the trained model from `credit_pipeline.pkl`. If that file is missing, run the Week 6 notebook first to create it.
+
+### Suggested study pattern
+
+1. **Before the session:** skim the notebook's markdown and learning objectives.
+2. **During the session:** run the cells along with the lecture and note where the output differs from what you expected.
+3. **After the session:** complete the exercises and challenges at the end of each notebook. Change the parameters, data and prompts and observe what happens.
+4. **For assessments:** use the notebooks as worked examples and reference implementations. Check the course Moodle page for the rules on using code and generative AI in assessed work.
+
+---
+
+## Weekly Materials
 
 ### Week 01 — AI and Data Literacy for Finance and Banking
 
 | Notebook | Description |
 |---|---|
-| [week1-seminar.ipynb](week01/week1-seminar.ipynb) | Core seminar: AI methodologies in finance; credit scoring and customer segmentation; data pipeline from raw financial data to model inputs |
+| [week1-seminar.ipynb](week01/week1-seminar.ipynb) | AI methods in finance; credit scoring and customer segmentation; the data pipeline from raw financial data to model inputs |
 
-**Key concepts:** ML taxonomy, supervised/unsupervised learning, data quality, Digital Data Factory (DDF) pipeline, credit risk scoring.
-
----
+**Key concepts:** ML taxonomy, supervised and unsupervised learning, data quality, the Digital Data Factory (DDF) pipeline, credit risk scoring.
 
 ### Week 02 — Applications, Opportunities and Limitations of AI
 
 | Notebook | Description |
 |---|---|
-| [week2-seminar.ipynb](week02/week2-seminar.ipynb) | Core seminar: AI across the financial services value chain; limitations — hallucination, explainability gaps, model drift |
+| [week2-seminar.ipynb](week02/week2-seminar.ipynb) | AI across the financial services value chain; limitations including hallucination, explainability gaps and model drift |
 
-**Key concepts:** Decision support systems, personalisation engines, real-time anomaly detection, AI regulation, responsible AI.
-
----
+**Key concepts:** decision support systems, personalisation engines, real-time anomaly detection, AI regulation, responsible AI.
 
 ### Week 03 — Advanced Techniques in LLM and Multimodal Models
 
 | Notebook | Description |
 |---|---|
-| [week3-seminar.ipynb](week03/week3-seminar.ipynb) | Core seminar: Transformer architecture, fine-tuning (LoRA, RAG), multimodal models for earnings calls and document processing |
+| [week3-seminar.ipynb](week03/week3-seminar.ipynb) | Transformer architecture, fine-tuning (LoRA), RAG, and multimodal models for earnings calls and document processing |
 
-**Key concepts:** Attention mechanism, tokenisation, BloombergGPT, LoRA fine-tuning, retrieval-augmented generation (RAG), multimodal AI.
-
----
+**Key concepts:** the attention mechanism, tokenisation, BloombergGPT, LoRA fine-tuning, retrieval-augmented generation, multimodal AI.
 
 ### Week 04 — AI Virtual Agents, AI Ethics and Use Cases
 
 | Notebook | Description |
 |---|---|
-| [week4-seminar.ipynb](week04/week4-seminar.ipynb) | Core seminar: Agentic AI systems in finance; AI ethics — fairness, transparency, accountability; hands-on agent design for financial report summarisation |
+| [week4-seminar.ipynb](week04/week4-seminar.ipynb) | Agentic AI systems in finance; AI ethics (fairness, transparency, accountability); hands-on design of an agent that summarises financial reports |
 
-**Key concepts:** Agentic pipelines, tool use, multi-step reasoning, AI ethics, bias in financial AI, portfolio rebalancing agents.
-
----
+**Key concepts:** agentic pipelines, tool use, multi-step reasoning, bias in financial AI, portfolio rebalancing agents.
 
 ### Week 05 — Banking Transformation
 
 | Notebook | Description |
 |---|---|
-| [week5-seminar.ipynb](week05/week5-seminar.ipynb) | Core seminar: Digital transformation of banking and insurance; straight-through processing; AI-assisted underwriting; full digitisation case study |
+| [week5-seminar.ipynb](week05/week5-seminar.ipynb) | Digital transformation of banking and insurance; straight-through processing; AI-assisted underwriting; a full digitisation case study |
 
-**Key concepts:** Straight-through processing, intelligent document handling, AI underwriting, legacy migration, cloud adoption, model risk.
-
----
+**Key concepts:** straight-through processing, intelligent document handling, AI underwriting, legacy migration, cloud adoption, model risk.
 
 ### Week 06 — Tech Lab
 
-| Notebook | Description |
+| File | Description |
 |---|---|
-| [week6-seminar.ipynb](week06/week6-seminar.ipynb) | Hands-on lab: Python AI stack for finance — credit risk classifier, earnings report parsing with LLMs, backtesting loop; coding challenges |
+| [week6-seminar.ipynb](week06/week6-seminar.ipynb) | Hands-on lab with the Python AI stack for finance: a credit risk classifier, earnings report parsing with LLMs, a backtesting loop, and coding challenges |
+| [credit_app.py](week06/credit_app.py) | Streamlit credit-scoring app (uses `credit_pipeline.pkl`) |
+| [robo_advisory_app.py](week06/robo_advisory_app.py) | Streamlit robo-advisory portfolio app |
+| [super_fund_app.py](week06/super_fund_app.py) | Streamlit superannuation fund projection app |
 
-**Key concepts:** `pandas`, `scikit-learn`, LLM APIs (Gemini), backtesting, financial data wrangling. *This week is code-first and lighter on prose.*
-
----
+**Key concepts:** `pandas`, `scikit-learn`, LLM APIs, backtesting, financial data wrangling, deploying models as apps. *This week is code-first and has less prose than the other weeks.*
 
 ### Week 07 — AI in Corporate Finance
 
 | Notebook | Description |
 |---|---|
-| [week7-seminar.ipynb](week07/week7-seminar.ipynb) | Core seminar: AI-augmented valuation (DCF, comparable company analysis); NLP on financial filings; FP&A automation; board reporting |
+| [week7-seminar.ipynb](week07/week7-seminar.ipynb) | AI-augmented valuation (DCF and comparable company analysis); NLP on financial filings; FP&A automation; board reporting |
 
-**Key concepts:** Sentiment extraction from filings, ML-based comps, treasury cash forecasting, FP&A automation, CFO digital mandate.
-
----
+**Key concepts:** sentiment extraction from filings, ML-based comparables, treasury cash forecasting, FP&A automation, the CFO's digital mandate.
 
 ### Week 08 — Trading and Investing with AI
 
 | Notebook | Description |
 |---|---|
-| [week8-case-study.ipynb](week08/week8-case-study.ipynb) | Case study: Algorithmic trading platform vs. long-term AI investment platform — design, governance, and bias analysis |
+| [week8-case-study.ipynb](week08/week8-case-study.ipynb) | Case study comparing an algorithmic trading platform with a long-term AI investment platform, covering design, governance and bias analysis |
 
-**Key concepts:** Algorithmic bias, mean-variance optimisation, RL-based allocation, factor models, high-frequency vs. long-horizon strategies.
-
----
+**Key concepts:** algorithmic bias, mean-variance optimisation, RL-based allocation, factor models, high-frequency versus long-horizon strategies.
 
 ### Week 09 — AI Asset and Wealth Management
 
-| Notebook | Description |
+| File | Description |
 |---|---|
-| [week9-case-study.ipynb](week09/week9-case-study.ipynb) | Case study: End-to-end WealthTech platform simulation — client profiling, goals-based planning, portfolio construction, LLM-assisted SOA generation, BID compliance gate |
+| [week9-case-study.ipynb](week09/week9-case-study.ipynb) | End-to-end WealthTech platform simulation: client profiling, goals-based planning, portfolio construction, LLM-assisted SOA generation, and a best-interest-duty (BID) compliance gate |
+| [advisory_app.py](week09/advisory_app.py) | Streamlit advisory dashboard |
 
-**Key concepts:** Robo-advisory, goals-based investing, best-interest duty (BID), superannuation AI, WealthTech architecture.
-
----
+**Key concepts:** robo-advice, goals-based investing, best-interest duty, superannuation AI, WealthTech architecture.
 
 ### Week 10 — Financial Intelligence
 
 | Notebook | Description |
 |---|---|
-| [week10-case-study.ipynb](week10/week10-case-study.ipynb) | Case study: ESG compliance, financial inclusion via alternative credit scoring, alternative data (satellite, geospatial), AI-enabled fraud detection |
+| [week10-case-study.ipynb](week10/week10-case-study.ipynb) | ESG compliance; financial inclusion through alternative credit scoring; alternative data (satellite, geospatial); AI-enabled fraud detection |
 
-**Key concepts:** Financial inclusion, alternative data, ESG scoring with FinBERT, greenwashing detection, deepfake fraud, UN SDGs.
+**Key concepts:** financial inclusion, alternative data, ESG scoring with FinBERT, greenwashing detection, deepfake fraud, the UN SDGs.
 
 ---
 
@@ -164,16 +205,28 @@ numpy  pandas  scipy  scikit-learn  matplotlib  google-generativeai
 
 ---
 
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `ModuleNotFoundError` | Re-run the notebook's install cell, or `pip install <package>` locally |
+| An LLM cell prints *mock mode* | No API key was found. Check that the secret name is exactly `GOOGLE_API_KEY` and that **Notebook access** is on |
+| `429` / quota errors from Gemini | You have hit the free-tier rate limit. Wait a minute and re-run, or continue in mock mode |
+| No public link appears for a Streamlit app in Colab | Add your ngrok auth token as the notebook instructs, then restart the app cell |
+| Colab session reset | Runtimes are temporary. Re-run from the top; save your copy to Drive to keep your edits |
+
+---
+
 ## Reference Textbooks
 
-* Hilpisch Y., (2021). *Artificial Intelligence in Finance: a Python-based Guide*. O'Reilly
-* Alammar Y., Grootendorst M., (2025). *Hands-On Large Language Models: Language Understanding and Generation*, O'Reilly
-* Hric, J. & Lin, Y. (2026). *Applied Data Science in FinTech: Models, Tools, and Case Studies*. Routledge.
+- Hilpisch, Y. (2021). *Artificial Intelligence in Finance: A Python-Based Guide*. O'Reilly.
+- Alammar, J. & Grootendorst, M. (2024). *Hands-On Large Language Models: Language Understanding and Generation*. O'Reilly.
+- Hric, J. & Lin, Y. (2026). *Applied Data Science in FinTech: Models, Tools, and Case Studies*. Routledge.
 
 ---
 
 ## Licence and Attribution
 
-These materials are provided for enrolled FINS5557 students at UNSW Business School. All notebooks are for educational use only. Please do not redistribute without permission from the course authors.
+These materials are provided to students enrolled in **FINS3657** and **FINS5557** at UNSW Business School for educational use only. All data in the notebooks is synthetic or publicly available, and nothing here is financial advice. Please do not redistribute the materials without permission from the course author.
 
-For questions, contact the course team via the UNSW Moodle page.
+For questions, use the forums on your course's Moodle page or contact the course team through Moodle.
