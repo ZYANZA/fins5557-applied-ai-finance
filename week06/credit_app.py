@@ -75,10 +75,10 @@ st.dataframe(feat_df.set_index("Feature").T.round(3))
 # Model Card
 with st.expander("Model Card (SR 11-7 Documentation)"):
     st.markdown(
-        "- **Model type:** GradientBoostingClassifier (sklearn Pipeline)\n"
-        "- **Features:** 7 traditional bureau + 6 alternative data\n"
-        "- **Training data:** 10,000 synthetic applicants (FINS5557, seed=2025)\n"
-        "- **Performance:** AUC approx 0.84, Gini approx 0.68\n"
-        "- **Decision threshold:** 0.35\n"
+        "- **Model type:** GradientBoostingClassifier (sklearn Pipeline)  \n"
+        "- **Features:** 7 traditional bureau + 6 alternative data  \n"
+        "- **Training data:** 10,000 synthetic applicants (FINS5557, seed=2025)  \n"
+        "- **Performance:** AUC approx 0.84, Gini approx 0.68  \n"
+        "- **Decision threshold:** 0.35  \n"
         "- **Regulatory anchors:** SR 11-7, ASIC RG 255, NCA s124, Privacy Act 1988"
     )
