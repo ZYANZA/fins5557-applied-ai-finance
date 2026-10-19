@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="FINS5557 Super Fund Planner | UNSW", layout="wide")
